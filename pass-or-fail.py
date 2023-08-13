@@ -48,7 +48,7 @@ class Grades:
 
         combo = {subjects[i]: grades[i] for i in range(len(subjects))}
         return combo
-        
+         git a
         
     def get_grade_average(self):
         '''Get the average of the grades'''
@@ -118,8 +118,4 @@ student1 = Student('Tirso Samalungo', 9, 'A')
 student1.describe_student()
         
 student1 = Grades(16, 14, 13, 18, 10, 9, 5, 14, 19, 20, 20, 20)
-
-student1.show_all_grades()
-
-student1.pass_or_fail()
 

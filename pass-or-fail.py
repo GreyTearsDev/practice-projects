@@ -30,92 +30,113 @@ class Grades:
         self.evp = evp
         self.emc = emc
         
-        
-    def subject_grade_combo(self):
-        '''Create a dictionary with {subject:grade} pairs'''
-        grades = [self.pt, self.eng, self.math, 
+        self.grades = [self.pt, self.eng, self.math, 
                    self.geo, self.bio, self.chem, 
                    self.his, self.phy, self.ph_ed,  
                    self.ed_lab, self.evp, self.emc]
     
-        subjects = ['Portuguese', 'English', 
+        self.subjects = ['Portuguese', 'English', 
                      'Mathematics', 'Geography', 
                      'Biology', 'Chemistry', 
                      'History', 'Physics', 
                      'Physical Education',  
                      'Technical Drawing', 
                      'Arts', 'Civil and Moral Education']
-
-        combo = {subjects[i]: grades[i] for i in range(len(subjects))}
+        
+        
+    def subject_grade_combo(self):
+        '''Create a dictionary with {subject:grade} pairs'''
+        combo = {self.subjects[i]: self.grades[i] for i in range(len(self.subjects))}
         return combo
-         git a
+        
         
     def get_grade_average(self):
         '''Get the average of the grades'''
-        grades = []
+        grades = self.subject_grade_combo()
         
-        average = sum (self.subject_grade_combo) / 12
-        return ('Grade average', round(average, 1))
+        average = sum (grades.values()) / 12
+        return f'Grade average {round(average, 1)}'
         
         
     def show_all_grades(self):
         '''Display all grades-subject combinations'''
-        for key in self.subject_grade_combo:
-            return (f'{key}: {self.subject_grade_combo[key]}')
+        grades = self.subject_grade_combo()
+        print('\n*************************************************')
+        print('All grades:')
+        
+        for key in grades:
+            print(f'{key}: {grades[key]}')
         
     
     def show_bad_grades(self):
         '''Show all grades bellow 9.5'''
-        for subject, grade in self.subject_grade_combo.items():
+        grades = self.subject_grade_combo()
+        print('\n*************************************************')
+        print('Bad grades:')
+        
+        for subject, grade in grades.items():
             if grade < 9.5:
-                return (f'{subject}: {grade}')   
+                print(f'{subject}: {grade}')   
         
         
     def show_good_grades(self):
         '''Show all grades above 9.5'''
-        for subject, grade in self.subject_grade_combo.items():
+        grades = self.subject_grade_combo()
+        print('\n*************************************************')
+        print('Good grades:')
+        
+        for subject, grade in grades.items():
             if grade >= 9.5:
-                return (f'{subject}: {grade}')
+                print(f'{subject}: {grade}')
 
     def count_bad_grades(self):
-        '''Count the number of low grades'''
+        '''Count the amount of low grades'''
+        grades = self.subject_grade_combo()
         count = 0
-        for grade in self.subject_grade_combo.value():
+        
+        for grade in grades.values():
             if grade < 9.5:
                 count += 1
         return count
         
         
     def nuclear_grades_results(self):
-        '''Decide if the student passes or not'''
+        '''Decide if the student passes or not 
+        based on the grades for nuclear subjects'''
+        
         if self.pt in self.show_bad_grades() and self.math in self.show_bad_grades():
-            print('The student failed the year because of unsatisfactory \
+            print('The student has failed the year because of unsatisfactory \
                 grades in both nuclear subjects (Portuguese and Mathematics).')
             print(f'Portuguese: {self.pt} \n Mathematics: {self.math}')
         
         elif self.pt in self.show_bad_grades() and self.math not in self.show_bad_grades():
-            print(f'The student failed the year because of an unsatisfactory \
+            print(f'The student has failed the year because of an unsatisfactory \
                 grade in Portuguese, which is one of the nuclear subjects.')
             print(f'Portuguese: {self.pt}')
             
         else:
             self.pt not in self.show_bad_grades() and self.math in self.show_bad_grades()
-            print(f'The student failed the year because of an unsatisfactory \
+            print(f'The student has failed the year because of an unsatisfactory \
                 grade in Mathematics, which is one of the nuclear subjects.')
             print(f'Mathematics: {self.math}')
             
     def pass_or_fail(self):
+        '''Decide if the student passes or fails based 
+        on both nuclear and non nuclear subjects'''
+        
         if self.pt < 9.5 or self.math < 9.5:
             self.nuclear_grades_results()
+            
         elif self.count_bad_grades() > 2:
-            print('The student failed the year because he/she exceeded the \
+            print('The student has failed the year because he/she exceeded the \
                 minimum number of low grades allowed to pass.')
         else:
-            print('The student passed.')
+            print('The student has passed.')
             
 
 student1 = Student('Tirso Samalungo', 9, 'A')
 student1.describe_student()
         
 student1 = Grades(16, 14, 13, 18, 10, 9, 5, 14, 19, 20, 20, 20)
+student1.pass_or_fail()
 
